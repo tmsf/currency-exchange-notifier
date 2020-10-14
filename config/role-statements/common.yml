@@ -2,3 +2,8 @@
   Action: ssm:GetParameter
   Resource:
     - "arn:aws:ssm:#{AWS::Region}:#{AWS::AccountId}:parameter/*"
+- Effect: Allow
+  Action:
+    - ses:SendRawEmail
+  Resource:
+    - "*"

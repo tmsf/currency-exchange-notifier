@@ -1,5 +1,5 @@
 service:
-  name: aws-nodejs-typescript
+  name: currency-exchange-notifier
 
 package:
   individually: true
@@ -10,7 +10,7 @@ custom:
 plugins:
   - serverless-pseudo-parameters
   - serverless-webpack
-  - serverless-newrelic-lambda-layers
+  - serverless-offline
   
 provider:
   name: aws
@@ -21,7 +21,7 @@ provider:
     ${file(config/role-statements/common.yml)}
 
 functions:
-  - ${file(config/functions/hello.yml)}
+  - ${file(config/functions/notify-by-mail.yml)}
 
 resources:
   - ${file(config/resources/api-gateway.yml)}

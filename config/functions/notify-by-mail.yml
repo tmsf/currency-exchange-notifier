@@ -1,0 +1,13 @@
+notify-by-mail:
+  handler: src/handlers/notify-by-mail.handler
+  iamRoleStatementsInherit: true
+  environment:
+    stage: ${self:custom.environment.stage}
+    fixer_api_key: ${self:custom.environment.fixer_api_key}
+  events:
+    - http:
+        method: get
+        path: notify-by-mail
+    - schedule:
+        rate: cron(0 9,19 * * ? *)
+        enabled: true

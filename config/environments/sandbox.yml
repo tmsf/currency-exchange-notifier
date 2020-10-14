@@ -1,4 +1,3 @@
 stage: "sandbox"
 
-newrelic:
-  disableAutoSubscription: true
+fixer_api_key: "${ssm:/currency-exchange-notifier/fixer-api-key~true}"

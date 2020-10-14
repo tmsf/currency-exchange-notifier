@@ -12,8 +12,7 @@ interface Email {
   attachments?: []
 }
 
-const notifyByMail = async (): Promise<any> => {
-  
+const notifyByMail = async () : Promise<any> => {
   const exchangeRates = await fetchExchangeRates()
   const emailPayload: Email = createEmail(exchangeRates)
   await sendEmail(emailPayload)
@@ -27,8 +26,8 @@ const notifyByMail = async (): Promise<any> => {
 }
 
 const fetchExchangeRates = async () => {
-  const apiKey = process.env.fixer_api_key
-  const url = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=USD,GBP`
+  const apiKey : string = process.env.fixer_api_key
+  const url : string = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=USD,GBP`
 
   const { data } = await axios.get(url)
   return data
@@ -36,13 +35,15 @@ const fetchExchangeRates = async () => {
 
 const createEmail = (exchangeRatesPayload): Email => {
   const { date, timestamp, rates } = exchangeRatesPayload
-  const time = new Date(timestamp * 1000)
-  const gbpEur = 1 / rates.GBP * 1000
-  const UsdEur = rates.USD * 1000
+  const time: Date = new Date(timestamp * 1000)
+  const gbpEur: number = 1 / rates.GBP * 1000
+  const UsdEur: number = rates.USD * 1000
+
+  const emailAddress: string = process.env.email_address
 
   const emailPayload: Email = {
-    from: 'compras@urze.be',
-    to: 'compras@urze.be',
+    from: emailAddress,
+    to: emailAddress,
     subject: `Exchange rates - ${date}`,
     html: `<h1>Exchange rates</h1> \
         <h4>${time}</h4>\

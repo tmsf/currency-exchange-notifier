@@ -4,6 +4,7 @@ notify-by-mail:
   environment:
     stage: ${self:custom.environment.stage}
     fixer_api_key: ${self:custom.environment.fixer_api_key}
+    email_address: ${self:custom.environment.email_address}
   events:
     - http:
         method: get

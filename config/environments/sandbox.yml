@@ -1,3 +1,4 @@
 stage: "sandbox"
 
 fixer_api_key: "${ssm:/currency-exchange-notifier/fixer-api-key~true}"
+email_address: "${ssm:/currency-exchange-notifier/email_address}"

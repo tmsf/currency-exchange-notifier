@@ -1,9 +1,9 @@
 {
-  "name": "typescript-serverless-bootstrap",
+  "name": "currency-exchange-notifier",
   "version": "1.0.0",
-  "author": "HealthBridge Ltd",
+  "author": "tmsf",
   "license": "ISC",
-  "description": "Bootstrap repository for serverless projects using TypeScript",
+  "description": "simple script that periodically sends email with exchange rates",
   "engineStrict": true,
   "engines": {
     "node": "^12"
@@ -41,7 +41,6 @@
     "jest": "26.4.2",
     "jest-junit": "11.1.0",
     "serverless": "1.79.0",
-    "serverless-newrelic-lambda-layers": "0.1.20",
     "serverless-offline": "6.4.0",
     "serverless-pseudo-parameters": "2.5.0",
     "serverless-webpack": "5.3.4",

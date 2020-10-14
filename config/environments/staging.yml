@@ -1,4 +1,1 @@
 stage: "staging"
-
-newrelic:
-  accountId: XXX

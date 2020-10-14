@@ -1,6 +1,3 @@
-import middy from 'middy'
-import { jsonBodyParser, httpEventNormalizer } from 'middy/middlewares'
-import { APIGatewayProxyResult } from 'aws-lambda'
 import axios from 'axios'
 import * as AWS from 'aws-sdk'
 import { createTransport } from 'nodemailer'
@@ -15,15 +12,18 @@ interface Email {
   attachments?: []
 }
 
-/**
- * Sends an email using AWS SES and nodemailer.
- */
-const sendEmail = (email: Email) => {
-  const transporter = createTransport({
-    SES: new AWS.SES()
-  })
+const notifyByMail = async (): Promise<any> => {
+  
+  const exchangeRates = await fetchExchangeRates()
+  const emailPayload: Email = createEmail(exchangeRates)
+  await sendEmail(emailPayload)
 
-  return transporter.sendMail(email)
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: 'email sent successfully!'
+    })
+  }
 }
 
 const fetchExchangeRates = async () => {
@@ -39,7 +39,7 @@ const createEmail = (exchangeRatesPayload): Email => {
   const time = new Date(timestamp * 1000)
   const gbpEur = 1 / rates.GBP * 1000
   const UsdEur = rates.USD * 1000
-  
+
   const emailPayload: Email = {
     from: 'compras@urze.be',
     to: 'compras@urze.be',
@@ -53,35 +53,14 @@ const createEmail = (exchangeRatesPayload): Email => {
   return emailPayload
 }
 
-/**
- * Function that has all the business logic
- *
- * @returns Promise<APIGatewayProxyResult>
- */
-async function notifyByMail (): Promise<APIGatewayProxyResult> {
-  
-  const exchangeRates = await fetchExchangeRates()
-  const emailPayload: Email = createEmail(exchangeRates)
-  await sendEmail(emailPayload)
+const sendEmail = (email: Email) => {
+  const transporter = createTransport({
+    SES: new AWS.SES()
+  })
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'email sent successfully!'
-    })
-  }
+  return transporter.sendMail(email)
 }
 
-/**
- * Wrapping hello function with middlewares using middy.
- *
- * @see https://github.com/middyjs/middy
- */
-const handler = middy(notifyByMail)
-  .use(jsonBodyParser())
-  .use(httpEventNormalizer())
-
 export {
-  handler,
-  notifyByMail
+  notifyByMail as handler
 }

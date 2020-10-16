@@ -10,5 +10,5 @@ notify-by-mail:
         method: get
         path: notify-by-mail
     - schedule:
-        rate: cron(0 9,19 * * ? *)
+        rate: cron(0 8,10,16 * * ? *)
         enabled: true

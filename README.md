@@ -2,7 +2,7 @@
 
 simple script that periodically sends email with exchange rates
 
-# components
+## components
 
 - aws (lambda + SES mailer)
 - https://fixer.io/ API (free tier)

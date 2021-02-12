@@ -36,8 +36,12 @@ const fetchExchangeRates = async () => {
 const createEmail = (exchangeRatesPayload): Email => {
   const { date, timestamp, rates } = exchangeRatesPayload
   const time: Date = new Date(timestamp * 1000)
-  const gbpEur: number = 1 / rates.GBP * 1000
+
+  // multiple conversions based on broker payload
   const UsdEur: number = rates.USD * 1000
+  const eurGbp: number = rates.GBP * 1000
+  const gbpEur: number = 1 / rates.GBP * 1000
+  const eurUsd: number = 1 / rates.USD * 1000
 
   const emailAddress: string = process.env.email_address
 
@@ -47,8 +51,13 @@ const createEmail = (exchangeRatesPayload): Email => {
     subject: `Exchange rates - ${date}`,
     html: `<h1>Exchange rates</h1> \
         <h4>${time}</h4>\
+        <h5>GBP</h5>\
         <div>1000 GBP = ${gbpEur.toFixed(2)} EUR </div>\
-        <div>1000 EUR = ${UsdEur.toFixed(2)} USD </div>`
+        <div>1000 EUR = ${eurGbp.toFixed(2)} GBP </div>\
+        <h5>USD</h5>\
+        <div>1000 USD = ${eurUsd.toFixed(2)} EUR </div>\
+        <div>1000 EUR = ${UsdEur.toFixed(2)} USD </div>\
+        `
   }
 
   return emailPayload

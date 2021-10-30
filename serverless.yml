@@ -1,5 +1,4 @@
-service:
-  name: currency-exchange-notifier
+service: currency-exchange-notifier
 
 package:
   individually: true
@@ -19,6 +18,8 @@ provider:
   stage: ${opt:stage, 'sandbox'}
   iamRoleStatements:
     ${file(config/role-statements/common.yml)}
+  lambdaHashingVersion: '20201221'
+
 
 functions:
   - ${file(config/functions/notify-by-mail.yml)}
